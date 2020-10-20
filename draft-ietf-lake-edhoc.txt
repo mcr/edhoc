@@ -80,32 +80,32 @@ Table of Contents
      3.8.  Key Derivation  . . . . . . . . . . . . . . . . . . . . .  13
    4.  EDHOC Authenticated with Asymmetric Keys  . . . . . . . . . .  16
      4.1.  Overview  . . . . . . . . . . . . . . . . . . . . . . . .  16
-     4.2.  EDHOC Message 1 . . . . . . . . . . . . . . . . . . . . .  18
-     4.3.  EDHOC Message 2 . . . . . . . . . . . . . . . . . . . . .  20
-     4.4.  EDHOC Message 3 . . . . . . . . . . . . . . . . . . . . .  23
-   5.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  26
-     5.1.  EDHOC Error Message . . . . . . . . . . . . . . . . . . .  26
-   6.  Transferring EDHOC and Deriving an OSCORE Context . . . . . .  28
-     6.1.  Transferring EDHOC in CoAP  . . . . . . . . . . . . . . .  28
+     4.2.  Encoding of Public Authentication Key Identifiers . . . .  16
+     4.3.  Encoding of bstr_identifier . . . . . . . . . . . . . . .  18
+     4.4.  EDHOC Message 1 . . . . . . . . . . . . . . . . . . . . .  18
+     4.5.  EDHOC Message 2 . . . . . . . . . . . . . . . . . . . . .  20
+     4.6.  EDHOC Message 3 . . . . . . . . . . . . . . . . . . . . .  23
+   5.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . .  27
+     5.1.  EDHOC Error Message . . . . . . . . . . . . . . . . . . .  27
+   6.  Transferring EDHOC and Deriving an OSCORE Context . . . . . .  29
+     6.1.  Transferring EDHOC in CoAP  . . . . . . . . . . . . . . .  29
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  31
      7.1.  Security Properties . . . . . . . . . . . . . . . . . . .  31
-     7.2.  Cryptographic Considerations  . . . . . . . . . . . . . .  32
+     7.2.  Cryptographic Considerations  . . . . . . . . . . . . . .  33
      7.3.  Cipher Suites . . . . . . . . . . . . . . . . . . . . . .  33
-     7.4.  Unprotected Data  . . . . . . . . . . . . . . . . . . . .  33
-     7.5.  Denial-of-Service . . . . . . . . . . . . . . . . . . . .  33
+     7.4.  Unprotected Data  . . . . . . . . . . . . . . . . . . . .  34
+     7.5.  Denial-of-Service . . . . . . . . . . . . . . . . . . . .  34
      7.6.  Implementation Considerations . . . . . . . . . . . . . .  34
      7.7.  Other Documents Referencing EDHOC . . . . . . . . . . . .  35
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  35
-     8.1.  EDHOC Cipher Suites Registry  . . . . . . . . . . . . . .  35
-     8.2.  EDHOC Method Type Registry  . . . . . . . . . . . . . . .  36
-     8.3.  The Well-Known URI Registry . . . . . . . . . . . . . . .  36
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  36
+     8.1.  EDHOC Cipher Suites Registry  . . . . . . . . . . . . . .  36
+     8.2.  EDHOC Method Type Registry  . . . . . . . . . . . . . . .  37
+     8.3.  The Well-Known URI Registry . . . . . . . . . . . . . . .  37
      8.4.  Media Types Registry  . . . . . . . . . . . . . . . . . .  37
      8.5.  CoAP Content-Formats Registry . . . . . . . . . . . . . .  38
      8.6.  Expert Review Instructions  . . . . . . . . . . . . . . .  38
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  38
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  38
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  40
-   Appendix A.  Use of CBOR, CDDL and COSE in EDHOC  . . . . . . . .  43
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  39
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  39
 
 
 
@@ -114,15 +114,17 @@ Selander, et al.          Expires 23 April 2021                 [Page 2]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
 
-     A.1.  CBOR and CDDL . . . . . . . . . . . . . . . . . . . . . .  43
-     A.2.  COSE  . . . . . . . . . . . . . . . . . . . . . . . . . .  44
-   Appendix B.  Test Vectors . . . . . . . . . . . . . . . . . . . .  44
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  41
+   Appendix A.  Use of CBOR, CDDL and COSE in EDHOC  . . . . . . . .  44
+     A.1.  CBOR and CDDL . . . . . . . . . . . . . . . . . . . . . .  44
+     A.2.  COSE  . . . . . . . . . . . . . . . . . . . . . . . . . .  45
+   Appendix B.  Test Vectors . . . . . . . . . . . . . . . . . . . .  45
      B.1.  Test Vectors for EDHOC Authenticated with Signature Keys
-           (x5t) . . . . . . . . . . . . . . . . . . . . . . . . . .  44
+           (x5t) . . . . . . . . . . . . . . . . . . . . . . . . . .  45
      B.2.  Test Vectors for EDHOC Authenticated with Static
-           Diffie-Hellman Keys . . . . . . . . . . . . . . . . . . .  59
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  72
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  72
+           Diffie-Hellman Keys . . . . . . . . . . . . . . . . . . .  60
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  73
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  73
 
 1.  Introduction
 
@@ -159,8 +161,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    OSCORE security context.  EDHOC uses COSE for cryptography, CBOR for
    encoding, and CoAP for transport.  By reusing existing libraries, the
    additional code footprint can be kept very low.
-
-
 
 
 
@@ -663,7 +663,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    *  The Initiator and the Responder decide on the representation of
       the identifier of their respective credentials, ID_CRED_I and
       ID_CRED_R.  The decision is reflected by the label used in the
-      CBOR map, see for example Section 4.1.
+      CBOR map, see for example Section 4.2.
 
 
 
@@ -802,7 +802,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       the derivation of K_2e and invocations of the EDHOC-Exporter.
 
    *  transcript_hash is a bstr set to one of the transcript hashes
-      TH_2, TH_3, or TH_4 as defined in Sections 4.3.1, 4.4.1, and
+      TH_2, TH_3, or TH_4 as defined in Sections 4.5.1, 4.6.1, and
       3.8.1.
 
    *  label is a tstr set to the name of the derived key or IV, i.e.
@@ -863,12 +863,40 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    *  The Responder is able to retrieve the Initiator's public
       authentication key using ID_CRED_I,
 
-   where the identifiers ID_CRED_I and ID_CRED_R are COSE header_maps,
-   i.e. CBOR maps containing COSE Common Header Parameters, see
-   Section 3.1 of [RFC8152]).  ID_CRED_I and ID_CRED_R need to contain
-   parameters that can identify a public authentication key.  In the
-   following paragraph we give some examples of possible COSE header
-   parameters used.
+   where ID_CRED_I and ID_CRED_R are the identifiers of the public
+   authentication keys.  Their encoding is specified in Section 4.2.
+
+   Initiator                                                   Responder
+   |               METHOD_CORR, SUITES_I, G_X, C_I, AD_1               |
+   +------------------------------------------------------------------>|
+   |                             message_1                             |
+   |                                                                   |
+   |   C_I, G_Y, C_R, Enc(K_2e; ID_CRED_R, Signature_or_MAC_2, AD_2)   |
+   |<------------------------------------------------------------------+
+   |                             message_2                             |
+   |                                                                   |
+   |       C_R, AEAD(K_3ae; ID_CRED_I, Signature_or_MAC_3, AD_3)       |
+   +------------------------------------------------------------------>|
+   |                             message_3                             |
+
+      Figure 4: Overview of EDHOC with asymmetric key authentication.
+
+4.2.  Encoding of Public Authentication Key Identifiers
+
+   The identifiers ID_CRED_I and ID_CRED_R are COSE header_maps, i.e.
+   CBOR maps containing COSE Common Header Parameters, see Section 3.1
+   of [RFC8152]).  ID_CRED_I and ID_CRED_R need to contain parameters
+   that can identify a public authentication key.  In the following
+   paragraph we give some examples of possible COSE header parameters
+   used.
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 16]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    Raw public keys are most optimally stored as COSE_Key objects and
    identified with a 'kid' parameter:
@@ -890,19 +918,11 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    The purpose of ID_CRED_I and ID_CRED_R is to facilitate retrieval of
    a public authentication key and when they do not contain the actual
    credential, they may be very short.  ID_CRED_I and ID_CRED_R MAY
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 16]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    contain the actual credential used for authentication.  It is
    RECOMMENDED that they uniquely identify the public authentication key
    as the recipient may otherwise have to try several keys.  ID_CRED_I
-   and ID_CRED_R are transported in the ciphertext, see Section 4.3.2
-   and Section 4.4.2.
+   and ID_CRED_R are transported in the ciphertext, see Section 4.5.2
+   and Section 4.6.2.
 
    The authentication key MUST be a signature key or static Diffie-
    Hellman key.  The Initiator and the Responder MAY use different types
@@ -918,14 +938,22 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    authentication keys are called G_I and G_R, respectively.
 
    The actual credentials CRED_I and CRED_R are signed or MAC:ed by the
-   Initiator and the Responder respectively, see Section 4.4.1 and
-   Section 4.3.1.  The Initiator and the Responder MAY use different
+   Initiator and the Responder respectively, see Section 4.6.1 and
+   Section 4.5.1.  The Initiator and the Responder MAY use different
    types of credentials, e.g. one uses RPK and the other uses
    certificate.  When the credential is a certificate, CRED_x is end-
    entity certificate (i.e. not the certificate chain) encoded as a CBOR
    bstr.  When the credential is a COSE_Key, CRED_x is a CBOR map only
    contains specific fields from the COSE_Key.  For COSE_Keys of type
    OKP the CBOR map SHALL only include the parameters 1 (kty), -1 (crv),
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 17]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
+
    and -2 (x-coordinate).  For COSE_Keys of type EC2 the CBOR map SHALL
    only include the parameters 1 (kty), -1 (crv), -2 (x-coordinate), and
    -3 (y-coordinate).  If the parties have agreed on an identity besides
@@ -944,37 +972,43 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
     "subject name" : "42-50-31-FF-EF-37-32-39"
    }
 
+4.3.  Encoding of bstr_identifier
 
+   A bstr_identifier is a special encoding for byte strings, used
+   throughout the protocol.
 
+   Byte strings of length greater than one are encoded as CBOR byte
+   strings.  Byte strings of length one are encoded as the corresponding
+   integer - 24.
 
+   For example, the byte string h'59e9' encoded as a bstr_identifier is
+   equal to h'59e9', while the byte string h'2a' is encoded as the
+   integer 18.
 
+   The CDDL definition of the bstr_identifier is given below:
 
-Selander, et al.          Expires 23 April 2021                [Page 17]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+   bstr_identifier = bstr / int
 
+   Note that, despite what could be interpreted by the CDDL definition
+   only, bstr_identifier once decoded are always byte strings.
 
-   Initiator                                                   Responder
-   |               METHOD_CORR, SUITES_I, G_X, C_I, AD_1               |
-   +------------------------------------------------------------------>|
-   |                             message_1                             |
-   |                                                                   |
-   |   C_I, G_Y, C_R, Enc(K_2e; ID_CRED_R, Signature_or_MAC_2, AD_2)   |
-   |<------------------------------------------------------------------+
-   |                             message_2                             |
-   |                                                                   |
-   |       C_R, AEAD(K_3ae; ID_CRED_I, Signature_or_MAC_3, AD_3)       |
-   +------------------------------------------------------------------>|
-   |                             message_3                             |
+4.4.  EDHOC Message 1
 
-      Figure 4: Overview of EDHOC with asymmetric key authentication.
-
-4.2.  EDHOC Message 1
-
-4.2.1.  Formatting of Message 1
+4.4.1.  Formatting of Message 1
 
    message_1 SHALL be a CBOR Sequence (see Appendix A.1) as defined
    below
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 18]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    message_1 = (
      METHOD_CORR : int,
@@ -985,7 +1019,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    )
 
    suite = int
-   bstr_identifier = bstr / int
 
    where:
 
@@ -1002,24 +1035,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       is selected and the selected cipher suite is encoded as an int
       instead of an array.
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 18]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    *  G_X - the ephemeral public key of the Initiator
 
-   *  C_I - variable length connection identifier.  An bstr_identifier
-      is a byte string with special encoding.  Byte strings of length
-      one is encoded as the corresponding integer - 24, i.e. h'2a' is
-      encoded as 18.
+   *  C_I - variable length connection identifier, encoded as a
+      bstr_identifier (see Section 4.3).
 
    *  AD_1 - bstr containing unprotected opaque auxiliary data
 
-4.2.2.  Initiator Processing of Message 1
+4.4.2.  Initiator Processing of Message 1
 
    The Initiator SHALL compose message_1 as follows:
 
@@ -1035,6 +1058,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    *  Determine the cipher suite to use with the Responder in message_1.
       If the Initiator previously received from the Responder an error
       message to a message_1 with diagnostic payload identifying a
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 19]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
+
       cipher suite that the Initiator supports, then the Initiator SHALL
       use that cipher suite.  Otherwise the first supported (i.e. the
       most preferred) cipher suite in SUITES_I MUST be used.
@@ -1048,9 +1079,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       the protocol.
 
    *  Encode message_1 as a sequence of CBOR encoded data items as
-      specified in Section 4.2.1
+      specified in Section 4.4.1
 
-4.2.3.  Responder Processing of Message 1
+4.4.3.  Responder Processing of Message 1
 
    The Responder SHALL process message_1 as follows:
 
@@ -1058,13 +1089,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    *  Verify that the selected cipher suite is supported and that no
       prior cipher suites in SUITES_I are supported.
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 19]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
 
    *  Pass AD_1 to the security application.
 
@@ -1077,9 +1101,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    then SUITES_R MUST include the first supported cipher suite in
    SUITES_I.
 
-4.3.  EDHOC Message 2
+4.5.  EDHOC Message 2
 
-4.3.1.  Formatting of Message 2
+4.5.1.  Formatting of Message 2
 
    message_2 and data_2 SHALL be CBOR Sequences (see Appendix A.1) as
    defined below
@@ -1088,6 +1112,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
      data_2,
      CIPHERTEXT_2 : bstr,
    )
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 20]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    data_2 = (
      ? C_I : bstr_identifier,
@@ -1101,7 +1134,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    *  C_R - variable length connection identifier
 
-4.3.2.  Responder Processing of Message 2
+   *  bstr_identifier is defined in Section 4.3
+
+4.5.2.  Responder Processing of Message 2
 
    The Responder SHALL compose message_2 as follows:
 
@@ -1112,15 +1147,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       [SP-800-56A] using the curve in the selected cipher suite and
       format it as a COSE_Key.  Let G_Y be the 'x' parameter of the
       COSE_Key.
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 20]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
 
    *  Choose a connection identifier C_R and store it for the length of
       the protocol.
@@ -1137,12 +1163,20 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       -  protected = << ID_CRED_R >>
 
          o  ID_CRED_R - identifier to facilitate retrieval of CRED_R,
-            see Section 4.1
+            see Section 4.2
 
       -  external_aad = << TH_2, CRED_R, ? AD_2 >>
 
          o  CRED_R - bstr containing the credential of the Responder,
-            see Section 4.1.
+            see Section 4.2.
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 21]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
          o  AD_2 = bstr containing opaque unprotected auxiliary data
 
@@ -1170,14 +1204,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       algorithm in the selected cipher suite, the private authentication
       key of the Responder, and the following parameters:
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 21]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
       -  protected = << ID_CRED_R >>
 
       -  external_aad = << TH_2, CRED_R, ? AD_2 >>
@@ -1199,10 +1225,19 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       -  plaintext = ( ID_CRED_R / bstr_identifier, Signature_or_MAC_2,
          ? AD_2 )
 
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 22]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
+
          o  Note that if ID_CRED_R contains a single 'kid' parameter,
             i.e., ID_CRED_R = { 4 : kid_R }, only the byte string kid_R
-            is conveyed in the plaintext encoded as an bstr_identifier,
-            see Section 4.1.
+            is conveyed in the plaintext encoded as a bstr_identifier,
+            see Section 4.2 and Section 4.3.
 
       -  CIPHERTEXT_2 = plaintext XOR K_2e
 
@@ -1210,9 +1245,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
          is the length of the plaintext.
 
    *  Encode message_2 as a sequence of CBOR encoded data items as
-      specified in Section 4.3.1.
+      specified in Section 4.5.1.
 
-4.3.3.  Initiator Processing of Message 2
+4.5.3.  Initiator Processing of Message 2
 
    The Initiator SHALL process message_2 as follows:
 
@@ -1223,23 +1258,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       5-tuple.
 
    *  Decrypt CIPHERTEXT_2.  The decryption process depends on the
-      method, see Section 4.3.2.
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 22]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
+      method, see Section 4.5.2.
 
    *  Verify that the identity of the Responder is an allowed identity
       for this connection, see Section 3.2.
 
    *  Verify Signature_or_MAC_2 using the algorithm in the selected
       cipher suite.  The verification process depends on the method, see
-      Section 4.3.2.
+      Section 4.5.2.
 
    *  Pass AD_2 to the security application.
 
@@ -1247,12 +1273,22 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    error message back, formatted as defined in Section 5, and the
    protocol MUST be discontinued.
 
-4.4.  EDHOC Message 3
+4.6.  EDHOC Message 3
 
-4.4.1.  Formatting of Message 3
+4.6.1.  Formatting of Message 3
 
    message_3 and data_3 SHALL be CBOR Sequences (see Appendix A.1) as
    defined below
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 23]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    message_3 = (
      data_3,
@@ -1263,7 +1299,9 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
      ? C_R : bstr_identifier,
    )
 
-4.4.2.  Initiator Processing of Message 3
+   where bstr_identifier is defined in Section 4.3.
+
+4.6.2.  Initiator Processing of Message 3
 
    The Initiator SHALL compose message_3 as follows:
 
@@ -1281,22 +1319,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
       -  protected = << ID_CRED_I >>
 
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 23]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
          o  ID_CRED_I - identifier to facilitate retrieval of CRED_I,
-            see Section 4.1
+            see Section 4.2
 
       -  external_aad = << TH_3, CRED_I, ? AD_3 >>
 
          o  CRED_I - bstr containing the credential of the Initiator,
-            see Section 4.1.
+            see Section 4.2.
 
          o  AD_3 = bstr containing opaque protected auxiliary data
 
@@ -1309,6 +1338,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       -  Nonce N = EDHOC-KDF( PRK_4x3m, TH_3, "IV_3m", length )
 
       -  Plaintext P = 0x (the empty string)
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 24]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
       -  Associated data A =
 
@@ -1339,13 +1375,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
          [ "Signature1", << ID_CRED_I >>, << TH_3, CRED_I, ? AD_3 >>,
          MAC_3 ]
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 24]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    *  Compute an outer COSE_Encrypt0 as defined in Section 5.3 of
       [RFC8152], with the EDHOC AEAD algorithm in the selected cipher
       suite, K_3ae, IV_3ae, and the following parameters.  The protected
@@ -1358,12 +1387,20 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
          o  Note that if ID_CRED_I contains a single 'kid' parameter,
             i.e., ID_CRED_I = { 4 : kid_I }, only the byte string kid_I
-            is conveyed in the plaintext encoded as an bstr_identifier,
-            see Section 4.1.
+            is conveyed in the plaintext encoded as a bstr_identifier,
+            see Section 4.2 and Section 4.3.
 
       COSE constructs the input to the AEAD [RFC5116] as follows:
 
       -  Key K = EDHOC-KDF( PRK_3e2m, TH_3, "K_3ae", length )
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 25]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
       -  Nonce N = EDHOC-KDF( PRK_3e2m, TH_3, "IV_3ae", length )
 
@@ -1375,14 +1412,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       CIPHERTEXT_3 is the 'ciphertext' of the outer COSE_Encrypt0.
 
    *  Encode message_3 as a sequence of CBOR encoded data items as
-      specified in Section 4.4.1.
+      specified in Section 4.6.1.
 
    Pass the connection identifiers (C_I, C_R) and the application
    algorithms in the selected cipher suite to the application.  The
    application can now derive application keys using the EDHOC-Exporter
    interface.
 
-4.4.3.  Responder Processing of Message 3
+4.6.3.  Responder Processing of Message 3
 
    The Responder SHALL process message_3 as follows:
 
@@ -1391,16 +1428,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    *  Retrieve the protocol state using the connection identifier C_R
       and/or other external information such as the CoAP Token and the
       5-tuple.
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 25]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
 
    *  Decrypt and verify the outer COSE_Encrypt0 as defined in
       Section 5.3 of [RFC8152], with the EDHOC AEAD algorithm in the
@@ -1411,7 +1438,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    *  Verify Signature_or_MAC_3 using the algorithm in the selected
       cipher suite.  The verification process depends on the method, see
-      Section 4.4.2.
+      Section 4.6.2.
 
    *  Pass AD_3, the connection identifiers (C_I, C_R), and the
       application algorithms in the selected cipher suite to the
@@ -1421,6 +1448,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    If any verification step fails, the Responder MUST send an EDHOC
    error message back, formatted as defined in Section 5, and the
    protocol MUST be discontinued.
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 26]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
 5.  Error Handling
 
@@ -1450,14 +1486,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       the Initiator and corr (METHOD_CORR mod 4) equals 0 or 1 then C_x
       is set to C_R, else C_x is omitted.
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 26]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    *  ERR_MSG - text string containing the diagnostic payload, defined
       in the same way as in Section 5.5.2 of [RFC7252].  ERR_MSG MAY be
       a 0-length text string.
@@ -1467,6 +1495,24 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       included in replies to message_1.  If a single supported cipher
       suite is conveyed then the supported cipher suite is encoded as an
       int instead of an array.
+
+   *  bstr_identifier is specified in Section 4.3.
+
+
+
+
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 27]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
 5.1.1.  Example Use of EDHOC Error Message with SUITES_R
 
@@ -1496,24 +1542,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    In Figure 6, the Responder supports cipher suite 7 but not cipher
    suites 5 and 6.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 27]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    Initiator                                                   Responder
    |         METHOD_CORR, SUITES_I = [5, 5, 6], G_X, C_I, AD_1         |
    +------------------------------------------------------------------>|
@@ -1534,6 +1562,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    selected cipher suite is the first cipher suite in SUITES_I that the
    Responder supports, the parties can verify that the selected cipher
    suite is the most preferred (by the Initiator) cipher suite supported
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 28]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
+
    by both parties.  If the selected cipher suite is not the first
    cipher suite in SUITES_I that the Responder supports, the Responder
    will discontinue the protocol.
@@ -1562,14 +1598,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    resource for EDHOC.  EDHOC message_2 or the EDHOC error message is
    sent from the server to the client in the payload of a 2.04 (Changed)
    response.  EDHOC message_3 or the EDHOC error message is sent from
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 28]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    the client to the server's resource in the payload of a POST request.
    If needed, an EDHOC error message is sent from the server to the
    client in the payload of a 2.04 (Changed) response.
@@ -1578,6 +1606,25 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    Figure 7.  In this case the CoAP Token enables the Initiator to
    correlate message_1 and message_2 so the correlation parameter corr =
    1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 29]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
              Client    Server
                |          |
@@ -1609,23 +1656,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    correlate message_2 and message_3 so the correlation parameter corr =
    2.
 
-
-
-
-
-
-
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 29]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
              Client    Server
                |          |
                +--------->| Header: POST (Code=0.02)
@@ -1644,6 +1674,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
                |   2.04   | Content-Format: application/edhoc
                |          | Payload: EDHOC message_3
                |          |
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 30]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
                     Figure 8: Transferring EDHOC in CoAP
 
@@ -1675,13 +1712,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       length is the key length (in bytes) of the application AEAD
       Algorithm.
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 30]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
       Master Secret = EDHOC-Exporter( "OSCORE Master Secret", length )
       Master Salt   = EDHOC-Exporter( "OSCORE Master Salt", 8 )
 
@@ -1700,6 +1730,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    passive attacks.  The roles should be assigned to protect the most
    sensitive identity/identifier, typically that which is not possible
    to infer from routing information in the lower layers.
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 31]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    Compared to [SIGMA], EDHOC adds an explicit method type and expands
    the message authentication coverage to additional elements such as
@@ -1730,14 +1767,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    Compromise of the long-term keys (private signature or static DH
    keys) does not compromise the security of completed EDHOC exchanges.
    Compromising the private authentication keys of one party lets an
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 31]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    active attacker impersonate that compromised party in EDHOC exchanges
    with other parties, but does not let the attacker impersonate other
    parties in EDHOC exchanges with the compromised party.  Compromise of
@@ -1756,6 +1785,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    secret key.  Note that the term KCI has typically been used for
    compromise of long-term keys, and that an attacker with access to the
    ephemeral secret key can only attack that specific protocol run.
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 32]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    Repudiation: In EDHOC authenticated with signature keys, the
    Initiator could theoretically prove that the Responder performed a
@@ -1787,13 +1824,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    certificates, EDHOC, and the protection of application data.  The
    Initiator and the Responder should enforce a minimum security level.
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 32]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    The data rates in many IoT deployments are very limited.  Given that
    the application keys are protected as well as the long-term
    authentication keys they can often be used for years or even decades
@@ -1811,6 +1841,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    problematic to support more than one cipher suites, so some
    deployments with P-256 may not support the mandatory cipher suite.
    This is not a problem for local deployments.
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 33]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    The HMAC algorithm HMAC 256/64 (HMAC w/ SHA-256 truncated to 64 bits)
    SHALL NOT be supported for use in EDHOC.
@@ -1841,15 +1879,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    forces the initiator to demonstrate reachability at its apparent
    network address.
 
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 33]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
 7.6.  Implementation Considerations
 
    The availability of a secure pseudorandom number generator and truly
@@ -1861,6 +1890,21 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    see ([RFC8613], Appendix B.1.1) for issues and solution approaches
    for writing to nonvolatile memory.  If ECDSA is supported,
    "deterministic ECDSA" as specified in [RFC6979] is RECOMMENDED.
+
+
+
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 34]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    The referenced processing instructions in [SP-800-56A] must be
    complied with, including deleting the intermediate computed values
@@ -1891,21 +1935,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    The Responder MUST finish the verification step of message_3 before
    passing AD_3 to the application.
 
-
-
-
-
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 34]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    If two nodes unintentionally initiate two simultaneous EDHOC message
    exchanges with each other even if they only want to complete a single
    EDHOC message exchange, they MAY terminate the exchange with the
@@ -1924,6 +1953,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    LoRaWAN is analyzed in [LoRa1] and [LoRa2], the use of EDHOC in IoT
    bootstrapping is analyzed in [Perez18], and the use of EDHOC in
    6TiSCH is described in [I-D.ietf-6tisch-dtsecurity-zerotouch-join].
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 35]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
 8.  IANA Considerations
 
@@ -1951,17 +1988,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
          AES-CCM-16-64-128, SHA-256
    Reference: [[this document]]
 
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 35]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    Value: 1
    Array: 30, 5, 4, -8, 6, 10, 5
    Desc: AES-CCM-16-128-128, SHA-256, X25519, EdDSA, Ed25519,
@@ -1979,6 +2005,18 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    Desc: AES-CCM-16-128-128, SHA-256, P-256, ES256, P-256,
          AES-CCM-16-64-128, SHA-256
    Reference: [[this document]]
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 36]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
 8.2.  EDHOC Method Type Registry
 
@@ -2010,14 +2048,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    *  Specification document(s): [[this document]]
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 36]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    *  Related information: None
 
 8.4.  Media Types Registry
@@ -2036,6 +2066,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    *  Encoding considerations: binary
 
    *  Security considerations: See Section 7 of this document.
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 37]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    *  Interoperability considerations: N/A
 
@@ -2064,16 +2101,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    *  Change Controller: IESG
 
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 37]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
 8.5.  CoAP Content-Formats Registry
 
    IANA has added the media type 'application/edhoc' to the CoAP
@@ -2095,6 +2122,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    experts for a reason so they should be given substantial latitude.
 
    Expert reviewers should take into consideration the following points:
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 38]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    *  Clarity and correctness of registrations.  Experts are expected to
       check the clarity of purpose and use of the requested entries.
@@ -2122,14 +2156,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    [I-D.ietf-core-echo-request-tag]
               Amsuess, C., Mattsson, J., and G. Selander, "CoAP: Echo,
               Request-Tag, and Token Processing", Work in Progress,
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 38]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
               Internet-Draft, draft-ietf-core-echo-request-tag-10, 13
               July 2020, <http://www.ietf.org/internet-drafts/draft-
               ietf-core-echo-request-tag-10.txt>.
@@ -2148,6 +2174,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
               Work in Progress, Internet-Draft, draft-ietf-lake-reqs-04,
               8 June 2020, <http://www.ietf.org/internet-drafts/draft-
               ietf-lake-reqs-04.txt>.
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 39]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2177,15 +2214,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
               Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
               October 2013, <https://www.rfc-editor.org/info/rfc7049>.
 
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 39]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
               Application Protocol (CoAP)", RFC 7252,
               DOI 10.17487/RFC7252, June 2014,
@@ -2203,6 +2231,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    [RFC8152]  Schaad, J., "CBOR Object Signing and Encryption (COSE)",
               RFC 8152, DOI 10.17487/RFC8152, July 2017,
               <https://www.rfc-editor.org/info/rfc8152>.
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 40]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -2232,16 +2270,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    [CborMe]   Bormann, C., "CBOR Playground", May 2018,
               <http://cbor.me/>.
 
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 40]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    [I-D.ietf-6tisch-dtsecurity-zerotouch-join]
               Richardson, M., "6tisch Zero-Touch Secure Join protocol",
               Work in Progress, Internet-Draft, draft-ietf-6tisch-
@@ -2257,6 +2285,18 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
               draft-ietf-ace-oauth-authz-35, 24 June 2020,
               <http://www.ietf.org/internet-drafts/draft-ietf-ace-oauth-
               authz-35.txt>.
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 41]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    [I-D.ietf-core-resource-directory]
               Shelby, Z., Koster, M., Bormann, C., Stok, P., and C.
@@ -2287,17 +2327,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
               <http://www.ietf.org/internet-drafts/draft-selander-ace-
               ake-authz-01.txt>.
 
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 41]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    [Kron18]   Krontiris, A., "Evaluation of Certificate Enrollment over
               Application Layer Security", May 2018,
               <https://www.nada.kth.se/~ann/exjobb/
@@ -2316,6 +2345,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
               A.F. Skarmeta, "Internet Access for LoRaWAN Devices
               Considering Security Issues", June 2018,
               <https://ants.inf.um.es/~josesanta/doc/GIoTS1.pdf>.
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 42]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    [Perez18]  Pérez, S., Garcia-Carrillo, D., Marín-López, R.,
               Hernández-Ramos, J., Marín-Pérez, R., and A. Skarmeta,
@@ -2344,16 +2381,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/info/rfc8446>.
 
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 42]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    [SIGMA]    Krawczyk, H., "SIGMA - The 'SIGn-and-MAc' Approach to
               Authenticated Diffie-Hellman and Its Use in the IKE-
               Protocols (Long version)", June 2003,
@@ -2372,6 +2399,16 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
               <https://www.springerprofessional.de/en/formal-
               verification-of-ephemeral-diffie-hellman-over-cose-
               edhoc/16284348>.
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 43]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
 Appendix A.  Use of CBOR, CDDL and COSE in EDHOC
 
@@ -2403,13 +2440,6 @@ A.1.  CBOR and CDDL
    implementors to get used to CBOR by using the CBOR playground
    [CborMe].
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 43]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
     Diagnostic          Encoded              Type
     ------------------------------------------------------------------
     1                   0x01                 unsigned integer
@@ -2426,6 +2456,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
     ( 1, 2, null )      0x0102f6             sequence
     1, 2, null          0x0102f6             sequence
     ------------------------------------------------------------------
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 44]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
 A.2.  COSE
 
@@ -2458,14 +2497,6 @@ B.1.  Test Vectors for EDHOC Authenticated with Signature Keys (x5t)
    method (Signature Authentication)
    0
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 44]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    CoAP is used as transport and the Initiator acts as CoAP client:
 
    corr (the Initiator can correlate message_1 and message_2)
@@ -2481,6 +2512,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    The list of supported cipher suites of the Initiator in order of
    preference is the following:
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 45]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    Supported Cipher Suites (4 bytes)
    00 01 02 03
@@ -2512,16 +2552,6 @@ B.1.1.  Message_1
 
    AD_1 (0 bytes)
 
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 45]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    Since the list of supported cipher suites needs to contain the
    selected cipher suite, the initiator truncates the list of supported
    cipher suites to one cipher suite only, 00.
@@ -2534,6 +2564,19 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    With SUITES_I = 0, message_1 is constructed, as the CBOR Sequence of
    the CBOR data items above.
+
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 46]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
   message_1 =
   (
@@ -2570,14 +2613,6 @@ B.1.2.  Message_2
 
    HKDF SHA-256 is the HKDF used (as defined by cipher suite 0).
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 46]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    PRK_2e = HMAC-SHA-256(salt, G_XY)
 
    Salt is the empty byte string.
@@ -2589,6 +2624,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
  PRK_2e (32 bytes)
  ec 62 92 a0 67 f1 37 fc 7f 59 62 9d 22 6f bf c4 e0 68 89 49 f6 62 a9 7f
  d8 2f be b7 99 71 39 4a
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 47]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  SK_R (Responders's private authentication key) (32 bytes)
  df 69 27 4d 71 32 96 e2 46 30 63 65 37 2b 46 83 ce d5 38 1b fc ad cd 44
@@ -2608,8 +2652,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    Note that since C_R is a byte string of length one, it is encoded as
    the corresponding integer subtracted by 24 (see bstr_identifier in
-   Section 4.2.1).  Thus 0x2b = 43, 43 - 24 = 19, and 19 in CBOR
-   encoding is equal to 0x13.
+   Section 4.3).  Thus 0x2b = 43, 43 - 24 = 19, and 19 in CBOR encoding
+   is equal to 0x13.
 
    C_R (1 byte)
    13
@@ -2626,14 +2670,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
  58 20 71 a3 d5 99 c2 1d a1 89 02 a1 ae a8 10 b2 b6 38 2c cd 8d 5f 9b f0
  19 52 81 75 4c 5e bc af 30 1e 13
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 47]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    From data_2 and message_1, compute the input to the transcript hash
    TH_2 = H( message_1, data_2 ), as a CBOR Sequence of these 2 data
    items.
@@ -2645,6 +2681,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    And from there, compute the transcript hash TH_2 = SHA-256(
    message_1, data_2 )
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 48]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  TH_2 (32 bytes)
  b0 dc 6c 1b a0 ba e6 e2 88 86 10 fa 0b 27 bf c5 2e 31 1a 47 b9 ca fb 60
@@ -2683,13 +2727,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
      34: [-15, h'FC79990F2431A3F5']
    }
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 48]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    ID_CRED_R (14 bytes)
    a1 18 22 82 2e 48 fc 79 99 0f 24 31 a3 f5
 
@@ -2701,6 +2738,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    The Plaintext is defined as the empty string:
 
    P_2m (0 bytes)
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 49]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    The Enc_structure is defined as follows: [ "Encrypt0",
    << ID_CRED_R >>, << TH_2, CRED_R >> ]
@@ -2739,13 +2783,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
     16
   ]
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 49]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    Which as a CBOR encoded data item is:
 
  info for K_2m (CBOR-encoded) (42 bytes)
@@ -2755,6 +2792,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    From these parameters, K_2m is computed.  Key K_2m is the output of
    HKDF-Expand(PRK_3e2m, info, L), where L is the length of K_2m, so 16
    bytes.
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 50]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    K_2m (16 bytes)
    b7 48 6a 94 a3 6c f6 9e 67 3f c4 57 55 ee 6b 95
@@ -2793,19 +2839,24 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    MAC_2 (8 bytes)
    cf 99 99 ae 75 9e c0 d8
 
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 50]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    To compute the Signature_or_MAC_2, the key is the private
    authentication key of the Responder and the message M_2 to be signed
    = [ "Signature1", << ID_CRED_R >>, << TH_2, CRED_R, ? AD_2 >>, MAC_2
    ]
+
+
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 51]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  M_2 =
  [
@@ -2846,18 +2897,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    The plaintext is the following:
 
-
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 51]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
  P_2e (CBOR Sequence) (80 bytes)
  a1 18 22 82 2e 48 fc 79 99 0f 24 31 a3 f5 58 40 45 47 81 ec ef eb b4 83
  e6 90 83 9d 57 83 8d fe 24 a8 cf 3f 66 42 8a a0 16 20 4a 22 61 84 4a f8
@@ -2866,6 +2905,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    K_2e = HKDF-Expand( PRK, info, length ), where length is the length
    of the plaintext, so 80.
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 52]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
   info for K_2e =
   [
@@ -2901,19 +2948,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    message_2 is the CBOR Sequence of data_2 and CIPHERTEXT_2, in this
    order:
 
-
-
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 52]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
  message_2 =
  (
   data_2,
@@ -2923,6 +2957,18 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
  )
 
    Which as a CBOR encoded data item is:
+
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 53]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  message_2 (CBOR Sequence) (117 bytes)
  58 20 71 a3 d5 99 c2 1d a1 89 02 a1 ae a8 10 b2 b6 38 2c cd 8d 5f 9b f0
@@ -2963,13 +3009,6 @@ B.1.3.  Message_3
  72 8b 67 1a d6 78 a4 3a ac d3 3b 78 eb d5 66 cd 00 4f c6 f1 d4 06 f0 1d
  97 04 e7 05 b2 15 52 a9 eb 28 ea 31 6a b6 50 37 d7 17 86 2e 13
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 53]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    And from there, compute the transcript hash TH_3 = SHA-256(TH_2 ,
    CIPHERTEXT_2, data_3)
 
@@ -2978,6 +3017,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
  b3 2e 4a 27 ce 93 58 da
 
    The initiator's subject name is the empty string:
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 54]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    Initiator's subject name (text string)
    ""
@@ -3019,17 +3066,21 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    The Plaintext of the COSE_Encrypt is the empty string:
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 54]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    P_3m (0 bytes)
 
    The external_aad is the CBOR Sequence od CRED_I and TH_3, in this
    order:
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 55]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  A_3m (CBOR-encoded) (164 bytes)
  83 68 45 6e 63 72 79 70 74 30 4e a1 18 22 82 2e 48 5b 78 69 88 43 9e bc
@@ -3068,20 +3119,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    Info for IV_3m is defined as follows:
 
-
-
-
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 55]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
   info for IV_3m =
   [
     10,
@@ -3091,6 +3128,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
   ]
 
    Which as a CBOR encoded data item is:
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 56]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  info for IV_3m (CBOR-encoded) (43 bytes)
  84 0a 58 20 a2 39 a6 27 ad a3 80 2d b8 da e5 1e c3 92 bf eb 92 6d 39 3e
@@ -3127,17 +3173,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    Which as a CBOR encoded data item is:
 
-
-
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 56]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
  M_3 (175 bytes)
  84 6a 53 69 67 6e 61 74 75 72 65 31 4e a1 18 22 82 2e 48 5b 78 69 88 43
  9e bc f2 58 89 58 20 a2 39 a6 27 ad a3 80 2d b8 da e5 1e c3 92 bf eb 92
@@ -3149,6 +3184,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
  ef b8 85 98 3c 22 d9
 
    From there, the signature can be computed:
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 57]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  Signature_or_MAC_3 (64 bytes)
  b3 31 76 33 fa eb c7 f4 24 9c f3 ab 95 96 fd ae 2b eb c8 e7 27 5d 39 9f
@@ -3187,13 +3231,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    Which as a CBOR encoded data item is:
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 57]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
  info for K_3ae (CBOR-encoded) (43 bytes)
  84 0a 58 20 a2 39 a6 27 ad a3 80 2d b8 da e5 1e c3 92 bf eb 92 6d 39 3e
  f6 ee e4 dd b3 2e 4a 27 ce 93 58 da 65 4b 5f 33 61 65 10
@@ -3204,6 +3241,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    K_3ae (16 bytes)
    58 b5 2f 94 5b 30 9d 85 4c a7 36 cd 06 a9 62 95
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 58]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    Nonce IV_3ae is the output of HKDF-Expand(PRK_3e2m, info, L).
 
@@ -3242,14 +3287,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    From the parameter above, message_3 is computed, as the CBOR Sequence
    of the following items: (C_R, CIPHERTEXT_3).
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 58]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    message_3 =
    (
      h'13',
@@ -3257,6 +3294,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    )
 
    Which encodes to the following byte string:
+
+
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 59]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  message_3 (CBOR Sequence) (91 bytes)
  13 58 58 2d 88 ff 86 da 47 48 2c 0d fa 55 9a c8 24 a4 a7 83 d8 70 c9 db
@@ -3299,18 +3347,20 @@ B.2.  Test Vectors for EDHOC Authenticated with Static Diffie-Hellman
    The mandatory-to-implement cipher suite 0 is supported by both the
    Initiator and the Responder, see Section 7.3.
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 59]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
 B.2.1.  Message_1
 
  X (Initiator's ephemeral private key) (32 bytes)
  ae 11 a0 db 86 3c 02 27 e5 39 92 fe b8 f5 92 4c 50 d0 a7 ba 6e ea b4 ad
  1f f2 45 72 f4 f5 7c fa
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 60]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  G_X (Initiator's ephemeral public key) (32 bytes)
  8d 3e f5 6d 1b 75 0a 43 51 d6 8a c2 50 a0 e8 83 79 0e fc 80 a5 38 a4 44
@@ -3322,9 +3372,9 @@ B.2.1.  Message_1
    16
 
    Note that since C_I is a byte strings of length one, it is encoded as
-   the corresponding integer - 24 (see bstr_identifier in
-   Section 4.2.1), i.e. 0x16 = 22, 22 - 24 = -2, and -2 in CBOR encoding
-   is equal to 0x21.
+   the corresponding integer - 24 (see bstr_identifier in Section 4.3),
+   i.e. 0x16 = 22, 22 - 24 = -2, and -2 in CBOR encoding is equal to
+   0x21.
 
    C_I (1 byte)
    21
@@ -3355,16 +3405,18 @@ B.2.1.  Message_1
     -2
   )
 
-
-
-Selander, et al.          Expires 23 April 2021                [Page 60]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
  message_1 (CBOR Sequence) (37 bytes)
  0d 00 58 20 8d 3e f5 6d 1b 75 0a 43 51 d6 8a c2 50 a0 e8 83 79 0e fc 80
  a5 38 a4 44 ee 9e 2b 57 e2 44 1a 7c 21
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 61]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
 B.2.2.  Message_2
 
@@ -3409,18 +3461,18 @@ B.2.2.  Message_2
    PRK_3e2m = HKDF-Extract( PRK_2e, G_RX ), where G_RX is the ECDH
    shared secret calculated from G_R and X, or G_X and R.
 
-
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 61]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
  R (Responder's private authentication key) (32 bytes)
  bb 50 1a ac 67 b9 a9 5f 97 e0 ed ed 6b 82 a6 62 93 4f bb fc 7a d1 b7 4c
  1f ca d6 6a 07 94 22 d0
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 62]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
  G_R (Responder's public authentication key) (32 bytes)
  a3 ff 26 35 95 be b3 77 d1 a0 ce 1d 04 da d2 d4 09 66 ac 6b cb 62 20 51
@@ -3443,9 +3495,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    20
 
    Note that since C_R is a byte strings of length one, it is encoded as
-   the corresponding integer - 24 (see bstr_identifier in
-   Section 4.2.1), i.e. 0x20 = 32, 32 - 24 = 8, and 8 in CBOR encoding
-   is equal to 0x08.
+   the corresponding integer - 24 (see bstr_identifier in Section 4.3),
+   i.e. 0x20 = 32, 32 - 24 = 8, and 8 in CBOR encoding is equal to 0x08.
 
    C_R (1 byte)
    08
@@ -3466,18 +3517,18 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    TH_2 = H( message_1, data_2 ), as a CBOR Sequence of these 2 data
    items.
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 62]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
  Input to calculate TH_2 (CBOR Sequence) (72 bytes)
  0d 00 58 20 8d 3e f5 6d 1b 75 0a 43 51 d6 8a c2 50 a0 e8 83 79 0e fc 80
  a5 38 a4 44 ee 9e 2b 57 e2 44 1a 7c 21 58 20 52 fb a0 bd c8 d9 53 dd 86
  ce 1a b2 fd 7c 05 a4 65 8c 7c 30 af db fc 33 01 04 70 69 45 1b af 35 08
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 63]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    And from there, compute the transcript hash TH_2 = SHA-256(
    message_1, data_2 )
@@ -3522,17 +3573,18 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
    AD_2  (0 bytes)
 
-
-
-
-Selander, et al.          Expires 23 April 2021                [Page 63]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
-
-
    The Plaintext is defined as the empty string:
 
    P_2m (0 bytes)
+
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 64]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
+
 
    The Enc_structure is defined as follows: [ "Encrypt0",
    << ID_CRED_R >>, << TH_2, CRED_R >> ]
@@ -3581,7 +3633,11 @@ A_2m =
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 64]
+
+
+
+
+Selander, et al.          Expires 23 April 2021                [Page 65]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -3631,13 +3687,13 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       ID_CRED_R contains a single 'kid' parameter, i.e., ID_CRED_R = { 4
       : kid_R }, only the byte string kid_R is conveyed in the plaintext
       encoded as a bstr_identifier. kid_R is encoded as the
-      corresponding integer - 24 (see bstr_identifier in Section 4.2.1),
+      corresponding integer - 24 (see bstr_identifier in Section 4.3),
       i.e. 0x07 = 7, 7 - 24 = -17, and -17 in CBOR encoding is equal to
       0x30.
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 65]
+Selander, et al.          Expires 23 April 2021                [Page 66]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -3693,7 +3749,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 66]
+Selander, et al.          Expires 23 April 2021                [Page 67]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -3749,7 +3805,7 @@ B.2.3.  Message_3
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 67]
+Selander, et al.          Expires 23 April 2021                [Page 68]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -3805,7 +3861,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 68]
+Selander, et al.          Expires 23 April 2021                [Page 69]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -3861,7 +3917,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 69]
+Selander, et al.          Expires 23 April 2021                [Page 70]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -3881,7 +3937,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    'kid' parameter, i.e., ID_CRED_I = { 4 : kid_I }, only the byte
    string kid_I is conveyed in the plaintext encoded as a
    bstr_identifier. kid_I is encoded as the corresponding integer - 24
-   (see bstr_identifier in Section 4.2.1), i.e. 0x24 = 36, 36 - 24 = 12,
+   (see bstr_identifier in Section 4.3), i.e. 0x24 = 36, 36 - 24 = 12,
    and 12 in CBOR encoding is equal to 0x0c.
 
    P_3ae (CBOR Sequence) (10 bytes)
@@ -3917,7 +3973,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 70]
+Selander, et al.          Expires 23 April 2021                [Page 71]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -3973,7 +4029,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 71]
+Selander, et al.          Expires 23 April 2021                [Page 72]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
@@ -4029,4 +4085,4 @@ Authors' Addresses
 
 
 
-Selander, et al.          Expires 23 April 2021                [Page 72]
+Selander, et al.          Expires 23 April 2021                [Page 73]
