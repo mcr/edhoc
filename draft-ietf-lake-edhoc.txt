@@ -459,6 +459,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    in which case the connection identifiers SHALL adhere to the
    requirements for that protocol.  Each party choses a connection
    identifier it desires the other party to use in outgoing messages.
+   (For OSCORE this results in the endpoint selecting its Recipient ID,
+   see Section 3.1 of [RFC8613].)
 
    If the transport provides a mechanism for correlating messages, some
    of the connection identifiers may be omitted.  There are four cases:
@@ -496,8 +498,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
       the subject whose unique name (e.g. a domain name, NAI, or EUI) is
       included in the other party's certificate.  Before running EDHOC
       each party needs at least one CA public key certificate, or just
-      the public key, and a set of identities it is allowed to
-      communicate with.  Any validated public-key certificate with an
 
 
 
@@ -506,6 +506,8 @@ Selander, et al.          Expires 23 April 2021                 [Page 9]
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
 
 
+      the public key, and a set of identities it is allowed to
+      communicate with.  Any validated public-key certificate with an
       allowed subject name is accepted.  EDHOC provides proof that the
       other party possesses the private authentication key corresponding
       to the public authentication key in its certificate.  The
@@ -546,8 +548,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO    October 2020
    the COSE Algorithms and Elliptic Curves registries.  Each cipher
    suite is identified with a pre-defined int label.  This document
    specifies four pre-defined cipher suites.
-
-
 
 
 
