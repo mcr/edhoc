@@ -3932,11 +3932,11 @@ Acknowledgments
    Russ Housley, Alexandros Krontiris, Ilari Liusvaara, Karl Norrman,
    Salvador Perez, Eric Rescorla, Michael Richardson, Thorvald Sahl
    Joergensen, Jim Schaad, Carsten Schuermann, Ludwig Seitz, Stanislav
-   Smyshlyaev, Valery Smyslov, Rene Struik, Erik Thormarker, and Michel
-   Veillette for reviewing and commenting on intermediate versions of
-   the draft.  We are especially indebted to Jim Schaad for his
-   continuous reviewing and implementation of different versions of the
-   draft.
+   Smyshlyaev, Valery Smyslov, Rene Struik, Vaishnavi Sundararajan, Erik
+   Thormarker, and Michel Veillette for reviewing and commenting on
+   intermediate versions of the draft.  We are especially indebted to
+   Jim Schaad for his continuous reviewing and implementation of
+   different versions of the draft.
 
 Authors' Addresses
 
