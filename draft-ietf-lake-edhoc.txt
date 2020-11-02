@@ -94,7 +94,7 @@ Table of Contents
      7.2.  Cryptographic Considerations  . . . . . . . . . . . . . .  33
      7.3.  Cipher Suites . . . . . . . . . . . . . . . . . . . . . .  34
      7.4.  Unprotected Data  . . . . . . . . . . . . . . . . . . . .  34
-     7.5.  Denial-of-Service . . . . . . . . . . . . . . . . . . . .  34
+     7.5.  Denial-of-Service . . . . . . . . . . . . . . . . . . . .  35
      7.6.  Implementation Considerations . . . . . . . . . . . . . .  35
      7.7.  Other Documents Referencing EDHOC . . . . . . . . . . . .  36
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  36
@@ -1803,6 +1803,17 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    that compromised shared secret.  Compromise of one session key does
    not compromise other session keys.
 
+   If supported by the device, it is RECOMMENDED that at least the long-
+   term private keys is stored in a Trusted Execution Environment (TEE)
+   and that sensitive operations using these keys are performed inside
+   the TEE.  To achieve even higher security additional operation such
+   as ephemeral key generation, all computations of shared secrets, and
+   storage of the PRK keys can be done inside the TEE.  Optimally, the
+   whole EDHOC protocol can be implemented inside the TEE.  Typically an
+   adversary with physical access to a device can be assumed to gain
+   access to all information outside of the TEE, but none of the
+   information inside the TEE.4.
+
    Key compromise impersonation (KCI): In EDHOC authenticated with
    signature keys, EDHOC provides KCI protection against an attacker
    having access to the long term key or the ephemeral secret key.  With
@@ -1831,6 +1842,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    a different mechanism.  EDHOC implements SIGMA-I using the same Sign-
    then-MAC approach as TLS 1.3.
 
+
+
+
+Selander, et al.           Expires 6 May 2021                  [Page 33]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
+
+
    To reduce message overhead EDHOC does not use explicit nonces and
    instead rely on the ephemeral public keys to provide randomness to
    each session.  A good amount of randomness is important for the key
@@ -1842,13 +1861,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    harmonized, so that a sufficient security level is maintained for
    certificates, EDHOC, and the protection of application data.  The
    Initiator and the Responder should enforce a minimum security level.
-
-
-
-Selander, et al.           Expires 6 May 2021                  [Page 33]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
-
 
    The data rates in many IoT deployments are very limited.  Given that
    the application keys are protected as well as the long-term
@@ -1886,6 +1898,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    unauthenticated data does not trigger any harmful actions.  In
    particular, this applies to AD_1 and ERR_MSG.
 
+
+
+
+Selander, et al.           Expires 6 May 2021                  [Page 34]
+
+Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
+
+
 7.5.  Denial-of-Service
 
    EDHOC itself does not provide countermeasures against Denial-of-
@@ -1896,15 +1916,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    as the Echo option in CoAP [I-D.ietf-core-echo-request-tag] that
    forces the initiator to demonstrate reachability at its apparent
    network address.
-
-
-
-
-
-Selander, et al.           Expires 6 May 2021                  [Page 34]
-
-Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
-
 
 7.6.  Implementation Considerations
 
@@ -1944,23 +1955,15 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    terminate the protocol) or retrieve the wrong security context (which
    also terminates the protocol as the message cannot be verified).
 
-   The Responder MUST finish the verification step of message_3 before
-   passing AD_3 to the application.
-
-
-
-
-
-
-
-
-
 
 
 Selander, et al.           Expires 6 May 2021                  [Page 35]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
+
+   The Responder MUST finish the verification step of message_3 before
+   passing AD_3 to the application.
 
    If two nodes unintentionally initiate two simultaneous EDHOC message
    exchanges with each other even if they only want to complete a single
@@ -2006,9 +2009,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    Desc: AES-CCM-16-64-128, SHA-256, X25519, EdDSA, Ed25519,
          AES-CCM-16-64-128, SHA-256
    Reference: [[this document]]
-
-
-
 
 
 
