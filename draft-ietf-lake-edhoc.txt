@@ -10,7 +10,7 @@ Expires: 6 May 2021                                          Ericsson AB
 
 
                Ephemeral Diffie-Hellman Over COSE (EDHOC)
-                        draft-ietf-lake-edhoc-00
+                      draft-ietf-lake-edhoc-latest
 
 Abstract
 
@@ -689,8 +689,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    message_1 and message_2, respectively.  Protected Auxiliary Data
    (AD_3) may be sent in message_3.
 
-   Since data carried in AD1 and AD2 may not be protected, and the
-   content of AD3 is available to both the Initiator and the Responder,
+   Since data carried in AD_1 and AD_2 may not be protected, and the
+   content of AD_3 is available to both the Initiator and the Responder,
    special considerations need to be made such that the availability of
    the data a) does not violate security and privacy requirements of the
    service which uses this data, and b) does not violate the security
