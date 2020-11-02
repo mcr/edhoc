@@ -1468,7 +1468,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    protocol MUST be discontinued.
 
    After verifying message_3, the Responder is assured that the
-   Initiated has calculated the key PRK_4x3m (explicit key confirmation)
+   Initiator has calculated the key PRK_4x3m (explicit key confirmation)
    and that no other party than the Responder can compute the key.  The
    Responder can securely send protected application data and store the
    keying material PRK_4x3m and TH_4.
@@ -1812,7 +1812,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
    whole EDHOC protocol can be implemented inside the TEE.  Typically an
    adversary with physical access to a device can be assumed to gain
    access to all information outside of the TEE, but none of the
-   information inside the TEE.4.
+   information inside the TEE.
 
    Key compromise impersonation (KCI): In EDHOC authenticated with
    signature keys, EDHOC provides KCI protection against an attacker
