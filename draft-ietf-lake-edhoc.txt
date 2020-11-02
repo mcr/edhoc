@@ -1132,9 +1132,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
    *  G_Y - the ephemeral public key of the Responder
 
-   *  C_R - variable length connection identifier
-
-   *  bstr_identifier is defined in Section 4.3
+   *  C_R - variable length connection identifier, encoded as a
+      bstr_identifier (see Section 4.3).
 
 4.5.2.  Responder Processing of Message 2
 
@@ -1170,6 +1169,7 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
          o  CRED_R - bstr containing the credential of the Responder,
             see Section 4.2.
 
+         o  AD_2 = bstr containing opaque unprotected auxiliary data
 
 
 
@@ -1177,8 +1177,6 @@ Selander, et al.           Expires 6 May 2021                  [Page 21]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
-
-         o  AD_2 = bstr containing opaque unprotected auxiliary data
 
       -  plaintext = h''
 
@@ -1224,6 +1222,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
       -  plaintext = ( ID_CRED_R / bstr_identifier, Signature_or_MAC_2,
          ? AD_2 )
+
+
 
 
 
@@ -1299,8 +1299,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
      ? C_R : bstr_identifier,
    )
 
-   where bstr_identifier is defined in Section 4.3.
-
 4.6.2.  Initiator Processing of Message 3
 
    The Initiator SHALL compose message_3 as follows:
@@ -1339,14 +1337,14 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
       -  Plaintext P = 0x (the empty string)
 
+      -  Associated data A =
+
 
 
 Selander, et al.           Expires 6 May 2021                  [Page 24]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
-
-      -  Associated data A =
 
          [ "Encrypt0", << ID_CRED_I >>, << TH_3, CRED_I, ? AD_3 >> ]
 
@@ -1394,6 +1392,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
       -  Key K = EDHOC-KDF( PRK_3e2m, TH_3, "K_3ae", length )
 
+      -  Nonce N = EDHOC-KDF( PRK_3e2m, TH_3, "IV_3ae", length )
+
 
 
 
@@ -1401,8 +1401,6 @@ Selander, et al.           Expires 6 May 2021                  [Page 25]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
-
-      -  Nonce N = EDHOC-KDF( PRK_3e2m, TH_3, "IV_3ae", length )
 
       -  Plaintext P = ( ID_CRED_I / bstr_identifier,
          Signature_or_MAC_3, ? AD_3 )
@@ -1453,6 +1451,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
 
 
+
+
 Selander, et al.           Expires 6 May 2021                  [Page 26]
 
 Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
@@ -1481,10 +1481,12 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 
    where:
 
-   *  C_x - if error is sent by the Responder and corr (METHOD_CORR mod
-      4) equals 0 or 2 then C_x is set to C_I, else if error is sent by
-      the Initiator and corr (METHOD_CORR mod 4) equals 0 or 1 then C_x
-      is set to C_R, else C_x is omitted.
+   *  C_x - variable length connection identifier, encoded as a
+      bstr_identifier (see Section 4.3).  If error is sent by the
+      Responder and corr (METHOD_CORR mod 4) equals 0 or 2 then C_x is
+      set to C_I, else if error is sent by the Initiator and corr
+      (METHOD_CORR mod 4) equals 0 or 1 then C_x is set to C_R, else C_x
+      is omitted.
 
    *  ERR_MSG - text string containing the diagnostic payload, defined
       in the same way as in Section 5.5.2 of [RFC7252].  ERR_MSG MAY be
@@ -1495,8 +1497,6 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
       included in replies to message_1.  If a single supported cipher
       suite is conveyed then the supported cipher suite is encoded as an
       int instead of an array.
-
-   *  bstr_identifier is specified in Section 4.3.
 
 
 
