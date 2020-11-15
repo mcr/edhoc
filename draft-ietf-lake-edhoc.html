@@ -1543,7 +1543,7 @@ CRED_x = {
         <h3 id="name-encoding-of-bstr_identifier">
 <a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-encoding-of-bstr_identifier" class="section-name selfRef">Encoding of bstr_identifier</a>
         </h3>
-<p id="section-4.3-1">A bstr_identifier is a special encoding for byte strings, used throughout the protocol to encode those short byte strings that can as CBOR ints in the interval -24 to 23, which only require one byte.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-1">A bstr_identifier is a special encoding for byte strings, used throughout the protocol to encode those short byte strings that can, as CBOR ints in the interval -24 to 23 (which only require one byte).<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <p id="section-4.3-2">Byte strings of length greater than one are encoded as CBOR byte strings.
 Byte strings of length one are encoded as the corresponding integer - 24.<a href="#section-4.3-2" class="pilcrow">¶</a></p>
 <p id="section-4.3-3">For example, the byte string h'59e9' encoded as a bstr_identifier is equal to h'59e9', while the byte string h'2a' is encoded as the integer 18.<a href="#section-4.3-3" class="pilcrow">¶</a></p>

@@ -975,8 +975,8 @@ Internet-Draft  Ephemeral Diffie-Hellman Over COSE (EDHO   November 2020
 4.3.  Encoding of bstr_identifier
 
    A bstr_identifier is a special encoding for byte strings, used
-   throughout the protocol to encode those short byte strings that can
-   as CBOR ints in the interval -24 to 23, which only require one byte.
+   throughout the protocol to encode those short byte strings that can,
+   as CBOR ints in the interval -24 to 23 (which only require one byte).
 
    Byte strings of length greater than one are encoded as CBOR byte
    strings.  Byte strings of length one are encoded as the corresponding
